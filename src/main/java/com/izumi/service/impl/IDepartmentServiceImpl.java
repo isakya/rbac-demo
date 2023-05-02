@@ -43,6 +43,7 @@ public class IDepartmentServiceImpl implements IDepartmentService {
      */
     @Override
     public void deleteById(Long id) {
+        // 断言
        Assert.state(departmentMapper.deleteById(id)>0,"删除失败");
     }
 

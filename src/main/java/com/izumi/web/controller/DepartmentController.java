@@ -7,9 +7,7 @@ import com.izumi.query.QueryObject;
 import com.izumi.service.IDepartmentService;
 import com.izumi.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/department")
@@ -25,5 +23,11 @@ public class DepartmentController {
                 result.getPageSize(), result.getList(),
                 Integer.parseInt(result.getTotal() + ""));
         return JsonResult.success(data);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public JsonResult delete(@PathVariable Long id) {
+        departmentService.deleteById(id);
+        return JsonResult.success();
     }
 }
