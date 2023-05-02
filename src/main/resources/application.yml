@@ -33,7 +33,9 @@ mybatis:
 logging:
   level:
     root: info
-    cn:
-      wolfcode:
-        rbac:
+    com:
+      izumi:
           mapper: trace
+pagehelper:
+  reasonable: true
+  page-size-zero: true

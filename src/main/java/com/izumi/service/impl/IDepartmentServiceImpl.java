@@ -1,15 +1,12 @@
 package com.izumi.service.impl;
 
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.izumi.domain.Department;
 import com.izumi.mapper.DepartmentMapper;
 import com.izumi.query.QueryObject;
 import com.izumi.service.IDepartmentService;
-import com.izumi.util.PageResult;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -30,23 +27,13 @@ public class IDepartmentServiceImpl implements IDepartmentService {
      * @return
      */
     @Override
-    public PageResult<Department> selectByPage(QueryObject qo) {
-        PageHelper.startPage(qo.getPageNum(),qo.getPageSize());
-        PageInfo pageInfo = new PageInfo<>(departmentMapper.queryForList());
-        PageResult pageResult = new PageResult();
-        BeanUtils.copyProperties(pageInfo,pageResult);
-        return pageResult;
-    }
-
-    @Override
-    public PageResult<Department> query(QueryObject queryObject) {
-        PageInfo pageInfo = new PageInfo<>(departmentMapper.query(queryObject));
-        PageResult<Department> pageResult = new PageResult<>();
-        pageResult.setData(pageInfo.getList());
-        pageResult.setTotalCount((int)pageInfo.getTotal());
-        pageResult.setPageSize(pageInfo.getPageSize());
-        pageResult.setCurrentPage(pageInfo.getPageNum());
-        return pageResult;
+    public PageInfo selectByPage(QueryObject qo) {
+        // PageHelper进行分页操作
+        // 告诉PageHelper当前页是多少、每页显示数据多少
+        PageHelper.startPage(qo.getPageNum(), qo.getPageSize());
+        // 调用分页方法
+       List<Department> departments =  departmentMapper.queryForList(qo);
+       return new PageInfo(departments);
     }
 
     /**

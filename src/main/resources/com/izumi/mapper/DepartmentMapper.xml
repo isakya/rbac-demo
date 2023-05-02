@@ -25,9 +25,4 @@
     <select id="queryForList" resultType="com.izumi.domain.Department">
         <include refid="selectDepartmentVo"></include>
     </select>
-    <select id="query" resultType="com.izumi.domain.Department" parameterType="com.izumi.query.QueryObject">
-        select * from department limit #{pageNum}, #{pageSize}
-    </select>
-
-
 </mapper>

@@ -18,7 +18,5 @@ public interface DepartmentMapper {
     //根据部门id更新部门
     int updateById(Department department);
     // 查询分页数据
-    List<Department> queryForList();
-
-    List<Department> query(QueryObject queryObject);
+    List<Department> queryForList(QueryObject queryObject);
 }
