@@ -31,5 +31,8 @@ public class JsonResult {
     public static JsonResult fail() {
         return new JsonResult(500, "操作失败", "fail", null);
     }
+    public static JsonResult fail(String msg) {
+        return new JsonResult(500, msg, "fail", null);
+    }
 
 }

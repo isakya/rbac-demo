@@ -4,12 +4,14 @@ package com.izumi.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.izumi.domain.Department;
+import com.izumi.exception.BussinessExp;
 import com.izumi.mapper.DepartmentMapper;
 import com.izumi.query.QueryObject;
 import com.izumi.service.IDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -65,7 +67,13 @@ public class IDepartmentServiceImpl implements IDepartmentService {
     // 获取单个部门
     @Override
     public Department selectById(Long id) {
-        Assert.notNull(id,"非法参数");
+        if(id == null) {
+            throw new BussinessExp("非法参数");
+        }
+        Department department = departmentMapper.selectById(id);
+        if(ObjectUtils.isEmpty(department)) {
+            throw new BussinessExp("查询数据不存在");
+        }
         return departmentMapper.selectById(id);
     }
 }
