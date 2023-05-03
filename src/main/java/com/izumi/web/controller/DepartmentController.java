@@ -30,4 +30,10 @@ public class DepartmentController {
         departmentService.deleteById(id);
         return JsonResult.success();
     }
+
+    @PostMapping("/saveOrUpdate")
+    public JsonResult saveOrUpdate(@RequestBody Department department) {
+        departmentService.saveOrUpdate(department);
+        return JsonResult.success();
+    }
 }
