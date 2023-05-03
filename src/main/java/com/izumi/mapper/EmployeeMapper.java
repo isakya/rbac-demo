@@ -1,12 +1,15 @@
-package cn.wolfcode.rbac.mapper;
+package com.izumi.mapper;
 
-import cn.wolfcode.rbac.domain.Employee;
-import cn.wolfcode.rbac.domain.query.EmployeeQueryObject;
-import cn.wolfcode.rbac.domain.vo.LoginInfoVo;
+
+import com.izumi.domain.Employee;
+import com.izumi.query.EmployeeQueryObject;
+import com.izumi.vo.LoginInfoVo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface EmployeeMapper {
     //根据id查询员工信息
     Employee selectById(Long id);

@@ -1,4 +1,4 @@
-package cn.wolfcode.rbac.domain.vo;
+package com.izumi.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,7 @@
-package cn.wolfcode.rbac.domain.vo;
+package com.izumi.vo;
 
-import cn.wolfcode.rbac.domain.Employee;
+
+import com.izumi.domain.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

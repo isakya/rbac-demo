@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.wolfcode.rbac.mapper.EmployeeMapper">
+<mapper namespace="com.izumi.mapper.EmployeeMapper">
     <!--登录sql-->
-    <select id="login" parameterType="cn.wolfcode.rbac.domain.vo.LoginInfoVo" resultType="Employee">
+    <select id="login" parameterType="com.izumi.vo.LoginInfoVo" resultType="com.izumi.domain.Employee">
         select * from employee where name = #{username} and password = #{password}
     </select>
 
@@ -13,14 +13,14 @@
                d.id did,d.name dname,d.sn dsn
         from employee e left join department d on e.dept_id=d.id
     </sql>
-    <resultMap id="empRst" type="Employee">
+    <resultMap id="empRst" type="com.izumi.domain.Employee">
         <id column="id" property="id"></id>
         <result column="name" property="name"></result>
         <result column="password" property="password"></result>
         <result column="email" property="email"></result>
         <result column="age" property="age"></result>
         <result column="admin" property="admin"></result>
-        <association property="department" javaType="Department">
+        <association property="department" javaType="com.izumi.domain.Department">
             <id column="did" property="id"></id>
             <result column="dname" property="name"></result>
             <result column="dsn" property="sn"></result>
@@ -41,12 +41,12 @@
         delete from employee where id =#{id}
     </delete>
 
-    <insert id="insert" parameterType="Employee" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.izumi.domain.Employee" useGeneratedKeys="true" keyProperty="id">
         insert into employee(name,password,email,age,admin,dept_id)
         values(#{name},#{password},#{email},#{age},#{admin},#{department.id})
     </insert>
 
-    <update id="updateById" parameterType="Employee">
+    <update id="updateById" parameterType="com.izumi.domain.Employee">
         update employee set name=#{name},password=#{password},
            email=#{email},age=#{age},admin=#{admin},dept_id=#{department.id}
         where id=#{id}
@@ -56,7 +56,7 @@
         update employee set admin=#{admin} where id=#{id}
     </update>
 
-    <select id="queryForList" resultMap="empRst" parameterType="cn.wolfcode.rbac.domain.query.EmployeeQueryObject">
+    <select id="queryForList" resultMap="empRst" parameterType="com.izumi.query.EmployeeQueryObject">
         <include refid="selectEmployeeVo"></include>
         <where>
             <if test="keyword!=null and keyword!=''">

@@ -1,18 +1,20 @@
-package cn.wolfcode.rbac.service;
+package com.izumi.service;
 
-import cn.wolfcode.rbac.domain.Employee;
-import cn.wolfcode.rbac.domain.query.EmployeeQueryObject;
-import cn.wolfcode.rbac.domain.vo.AdminStateVo;
-import cn.wolfcode.rbac.domain.vo.EmployeeRoleVo;
-import cn.wolfcode.rbac.domain.vo.PageResult;
+
+
+import com.github.pagehelper.PageInfo;
+import com.izumi.domain.Employee;
+import com.izumi.query.EmployeeQueryObject;
+import com.izumi.vo.AdminStateVo;
+import com.izumi.vo.EmployeeRoleVo;
 
 import java.util.List;
 
 public interface IEmployeeService {
     List<Employee> selectAll();
-    PageResult<Employee> selectByPage(EmployeeQueryObject qo);
+    PageInfo<Employee> selectByPage(EmployeeQueryObject qo);
     void deleteById(Long id);
-    void saveOrUpadate(EmployeeRoleVo employeeRoleVo);
+    void saveOrUpdate(EmployeeRoleVo employeeRoleVo);
     void updateStateById(AdminStateVo adminStateVo);
     Employee selectById(Long id);
 }

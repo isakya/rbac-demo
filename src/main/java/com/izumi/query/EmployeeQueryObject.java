@@ -1,4 +1,4 @@
-package cn.wolfcode.rbac.domain.query;
+package com.izumi.query;
 
 import lombok.Data;
 

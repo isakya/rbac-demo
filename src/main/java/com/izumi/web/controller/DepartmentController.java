@@ -1,7 +1,7 @@
 package com.izumi.web.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.izumi.data.DepartmentData;
+import com.izumi.data.ResultData;
 import com.izumi.domain.Department;
 import com.izumi.query.QueryObject;
 import com.izumi.service.IDepartmentService;
@@ -21,7 +21,7 @@ public class DepartmentController {
     @GetMapping("/list")
     public JsonResult list(QueryObject queryObject) {
         PageInfo<Department> result = departmentService.selectByPage(queryObject);
-        DepartmentData data = new DepartmentData(result.getPageNum(),
+        ResultData data = new ResultData(result.getPageNum(),
                 result.getPageSize(), result.getList(),
                 Integer.parseInt(result.getTotal() + ""));
         return JsonResult.success(data);

@@ -1,15 +1,14 @@
-package cn.wolfcode.rbac.service.impl;
+package com.izumi.service;
 
-import cn.wolfcode.rbac.domain.Employee;
-import cn.wolfcode.rbac.domain.vo.AdminStateVo;
-import cn.wolfcode.rbac.domain.vo.EmployeeRoleVo;
-import cn.wolfcode.rbac.domain.vo.PageResult;
-import cn.wolfcode.rbac.mapper.EmployeeMapper;
-import cn.wolfcode.rbac.domain.query.EmployeeQueryObject;
-import cn.wolfcode.rbac.service.IEmployeeService;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
+import com.izumi.domain.Employee;
+import com.izumi.exception.BussinessExp;
+import com.izumi.mapper.EmployeeMapper;
+import com.izumi.query.EmployeeQueryObject;
+import com.izumi.vo.AdminStateVo;
+import com.izumi.vo.EmployeeRoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +26,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
         return employeeMapper.selectAll();
     }
     @Override
-    public PageResult<Employee> selectByPage(EmployeeQueryObject qo) {
-        PageHelper.startPage(qo.getPageNum(),qo.getPageSize());
-        PageInfo pageInfo=new PageInfo(employeeMapper.queryForList(qo));
-        PageResult pageResult=new PageResult();
-        BeanUtils.copyProperties(pageInfo,pageResult);
-        return pageResult;
+    public PageInfo<Employee> selectByPage(EmployeeQueryObject qo) {
+        PageHelper.startPage(qo.getPageNum(), qo.getPageSize());
+        return new PageInfo(employeeMapper.queryForList(qo));
     }
 
     @Override
@@ -45,7 +41,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
     @Override
     @Transactional
-    public void saveOrUpadate(EmployeeRoleVo employeeRoleVo) {
+    public void saveOrUpdate(EmployeeRoleVo employeeRoleVo) {
         Assert.notNull(employeeRoleVo,"非法參數");
         Assert.notNull(employeeRoleVo.getEmployee(),"非法參數");
         if(employeeRoleVo.getEmployee().getId()==null){
@@ -93,7 +89,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
     @Override
     public Employee selectById(Long id) {
-        Assert.notNull(id,"非法參數");
+        if(id == null) {
+            throw new BussinessExp("参数不能为空");
+        }
+        Employee employee = employeeMapper.selectById(id);
+        if(employee == null) {
+            throw new BussinessExp("非法操作");
+        }
         return employeeMapper.selectById(id);
     }
 }
