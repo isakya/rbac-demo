@@ -35,8 +35,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/saveOrUpdate")
-    public JsonResult saveOrUpdate(@RequestBody EmployeeRoleVo employee) {
-        employeeService.saveOrUpdate(employee);
+    public JsonResult saveOrUpdate(@RequestBody EmployeeRoleVo employeeRoleVo) {
+        employeeService.saveOrUpdate(employeeRoleVo);
         return JsonResult.success();
     }
 

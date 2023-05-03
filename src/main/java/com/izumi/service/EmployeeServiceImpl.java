@@ -42,9 +42,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
     @Override
     @Transactional
     public void saveOrUpdate(EmployeeRoleVo employeeRoleVo) {
-        Assert.notNull(employeeRoleVo,"非法參數");
-        Assert.notNull(employeeRoleVo.getEmployee(),"非法參數");
-        if(employeeRoleVo.getEmployee().getId()==null){
+        if(employeeRoleVo == null) {
+            throw new BussinessExp("非法操作");
+        }
+        if(employeeRoleVo.getEmployee() == null) {
+            throw new BussinessExp("非法参数");
+        }
+        if(employeeRoleVo.getEmployee().getId() == null){
             // 添加员工
             save(employeeRoleVo.getEmployee(),employeeRoleVo.getRoleIds());
         }else{
@@ -59,7 +63,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
         employeeMapper.insert(employee);
         // 保存员工角色表 employee_role
         saveRelation(employee, roleIds);
-
     }
 
     @Transactional
@@ -79,6 +82,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
     }
 
 
+    // 维护关系，往中间表去插入数据
     private void saveRelation(Employee employee, Long[] roleIds) {
         if(roleIds != null && roleIds.length>0){
             for (Long roleId : roleIds) {
