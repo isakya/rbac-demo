@@ -9,6 +9,8 @@ import com.izumi.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/department")
 public class DepartmentController {
@@ -42,5 +44,12 @@ public class DepartmentController {
     public JsonResult info(@PathVariable Long id) {
         Department department = departmentService.selectById(id);
         return JsonResult.success(department);
+    }
+
+    // 获取所有部门
+    @GetMapping("/listAll")
+    public JsonResult listAll() {
+        List<Department> departments = departmentService.selectAll();
+        return JsonResult.success(departments);
     }
 }

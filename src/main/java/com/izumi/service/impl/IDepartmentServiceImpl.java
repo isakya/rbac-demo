@@ -17,6 +17,8 @@ import java.util.List;
 public class IDepartmentServiceImpl implements IDepartmentService {
     @Autowired
     private DepartmentMapper departmentMapper;
+
+    // 查询所有部门
     @Override
     public List<Department> selectAll() {
         return departmentMapper.selectAll();
