@@ -31,11 +31,16 @@ public class EmployeeServiceImpl implements IEmployeeService {
         return new PageInfo(employeeMapper.queryForList(qo));
     }
 
+    // 员工删除
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Assert.notNull(id,"非法參數");
-        Assert.state(employeeMapper.deleteById(id)>0,"删除失败");
+        if(id == null) {
+            throw new BussinessExp("非法操作");
+        }
+        if(employeeMapper.deleteById(id)==0) {
+            throw new BussinessExp("删除失败");
+        }
         employeeMapper.deleteRelation(id);
     }
 
