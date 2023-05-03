@@ -65,6 +65,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
         saveRelation(employee, roleIds);
     }
 
+    // 员工信息编辑
     @Transactional
     public void update(Employee employee, Long[] roleIds) {
         //更新员工信息
