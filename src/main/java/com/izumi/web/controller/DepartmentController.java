@@ -36,4 +36,11 @@ public class DepartmentController {
         departmentService.saveOrUpdate(department);
         return JsonResult.success();
     }
+
+    // 查询单个部门
+    @GetMapping("/info/{id}")
+    public JsonResult info(@PathVariable Long id) {
+        Department department = departmentService.selectById(id);
+        return JsonResult.success(department);
+    }
 }

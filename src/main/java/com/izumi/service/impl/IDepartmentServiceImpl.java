@@ -60,6 +60,7 @@ public class IDepartmentServiceImpl implements IDepartmentService {
                 "更新失败");
     }
 
+    // 获取单个部门
     @Override
     public Department selectById(Long id) {
         Assert.notNull(id,"非法参数");
