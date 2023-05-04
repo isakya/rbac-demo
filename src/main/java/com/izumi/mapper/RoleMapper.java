@@ -17,4 +17,6 @@ public interface RoleMapper {
     void insertRelation(@Param("roleId") Long roleId, @Param("permissionId") Long permissionId);
     int deleteRelation(Long roleId);
     List<Role> selectRolesByEmployee(Long employeeId);
+
+    void insertBatchRelation(Long roleId, Long[] permissionIds);
 }

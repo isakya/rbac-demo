@@ -20,6 +20,12 @@
   <insert id="insertRelation">
     INSERT INTO role_permission(role_id, permission_id) values(#{roleId}, #{permissionId})
   </insert>
+  <insert id="insertBatchRelation">
+    insert into role_permission(role_id, permission_id) values
+    <foreach collection="permissionIds" separator="," item="permissionId">
+      (#{roleId}, #{permissionId})
+    </foreach>
+  </insert>
   <update id="updateByPrimaryKey" >
     update role
     set name = #{name},

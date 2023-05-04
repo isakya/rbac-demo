@@ -54,9 +54,7 @@ public class RoleServiceImpl implements IRoleService {
 
     private void insertRelation(Role role, Long[] permissionIds) {
         if(permissionIds!=null && permissionIds.length>0){
-            for (Long permissionId : permissionIds) {
-                roleMapper.insertRelation(role.getId(), permissionId);
-            }
+            roleMapper.insertBatchRelation(role.getId(), permissionIds);
         }
     }
 

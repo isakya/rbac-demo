@@ -16,7 +16,7 @@ import org.springframework.util.ObjectUtils;
 import java.util.List;
 
 @Service
-public class IDepartmentServiceImpl implements IDepartmentService {
+public class DepartmentServiceImpl implements IDepartmentService {
     @Autowired
     private DepartmentMapper departmentMapper;
 
