@@ -52,7 +52,7 @@
         where id=#{id}
     </update>
 
-    <update id="updateStateById">
+    <update id="updateState">
         update employee set admin=#{admin} where id=#{id}
     </update>
 

@@ -6,6 +6,7 @@ import com.izumi.domain.Employee;
 import com.izumi.query.EmployeeQueryObject;
 import com.izumi.service.IEmployeeService;
 import com.izumi.util.JsonResult;
+import com.izumi.vo.AdminStateVo;
 import com.izumi.vo.EmployeeRoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,4 +52,11 @@ public class EmployeeController {
         List<Employee> employees = employeeService.selectAll();
         return JsonResult.success(employees);
     }
+
+    @PostMapping("/updateState")
+    public JsonResult updateState(@RequestBody AdminStateVo adminStateVo) {
+        employeeService.updateState(adminStateVo);
+        return JsonResult.success();
+    }
+
 }

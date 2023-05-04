@@ -15,6 +15,7 @@ public interface IEmployeeService {
     PageInfo<Employee> selectByPage(EmployeeQueryObject qo);
     void deleteById(Long id);
     void saveOrUpdate(EmployeeRoleVo employeeRoleVo);
-    void updateStateById(AdminStateVo adminStateVo);
     Employee selectById(Long id);
+
+    void updateState(AdminStateVo adminStateVo);
 }

@@ -1,4 +1,4 @@
-package com.izumi.service;
+package com.izumi.service.impl;
 
 
 import com.github.pagehelper.PageHelper;
@@ -7,6 +7,7 @@ import com.izumi.domain.Employee;
 import com.izumi.exception.BussinessExp;
 import com.izumi.mapper.EmployeeMapper;
 import com.izumi.query.EmployeeQueryObject;
+import com.izumi.service.IEmployeeService;
 import com.izumi.vo.AdminStateVo;
 import com.izumi.vo.EmployeeRoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,13 +81,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
         saveRelation(employee, roleIds);
     }
 
-    @Override
-    public void updateStateById(AdminStateVo adminStateVo) {
-        Assert.notNull(adminStateVo,"非法參數");
-        Assert.state(  employeeMapper.updateStateById(adminStateVo.getId(),adminStateVo.isAdmin())>0,
-                "更新状态失败");
-    }
-
 
     // 维护关系，往中间表去插入数据
     private void saveRelation(Employee employee, Long[] roleIds) {
@@ -107,5 +101,18 @@ public class EmployeeServiceImpl implements IEmployeeService {
             throw new BussinessExp("非法操作");
         }
         return employeeMapper.selectById(id);
+    }
+
+    // 设置管理员
+    @Override
+    public void updateState(AdminStateVo adminStateVo) {
+        if(adminStateVo == null || adminStateVo.getId() == null) {
+            throw new BussinessExp("非法操作");
+        }
+        // 更新数据库管理员状态
+        int count = employeeMapper.updateState(adminStateVo.getId(), adminStateVo.isAdmin());
+        if(count == 0) {
+            throw new BussinessExp("更新失败");
+        }
     }
 }
