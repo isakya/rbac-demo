@@ -1,5 +1,6 @@
 package com.izumi.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.izumi.constant.RedisConstant;
 import com.izumi.domain.Employee;
 import com.izumi.exception.BussinessExp;
@@ -41,31 +42,33 @@ public class LoginServiceImpl implements ILoginService {
     @Override
     public Employee login(LoginInfoVo loginInfoVo) {
         // 1 判断vo不为空
-        if(loginInfoVo == null) {
+        if (loginInfoVo == null) {
             throw new BussinessExp("非法操作");
         }
         // 2 判断账号密码不为空
-        if(StringUtils.isEmpty(loginInfoVo.getUsername())
+        if (StringUtils.isEmpty(loginInfoVo.getUsername())
                 || StringUtils.isEmpty(loginInfoVo.getPassword())) {
-            throw  new BussinessExp("账号和密码不能为空");
+            throw new BussinessExp("账号和密码不能为空");
         }
         // 3 判断验证码不为空
-        if(StringUtils.isEmpty(loginInfoVo.getCode())) {
-            throw  new BussinessExp("验证码不能为空");
+        if (StringUtils.isEmpty(loginInfoVo.getCode())) {
+            throw new BussinessExp("验证码不能为空");
         }
         // 4 上redis中去查询数据 验证码
         String code = redisUtils.get(RedisConstant.LOGIN_VERIFY_CODE + loginInfoVo.getUuid());
-        if(StringUtils.isEmpty(code)) {
-            throw  new BussinessExp("验证码错误");
+        if (StringUtils.isEmpty(code)) {
+            throw new BussinessExp("验证码错误");
         }
         // 5 对比传过来的验证码是否一致
         boolean flag = VerifyCodeUtil.verification(code, loginInfoVo.getCode(), true);
-        if(!flag) {
-            throw  new BussinessExp("验证码错误");
+        if (!flag) {
+            throw new BussinessExp("验证码错误");
         }
         // 6 根据账号和密码去数据库查询数据
         Employee employee = employeeService.login(loginInfoVo.getUsername(), loginInfoVo.getPassword());
-        // 7 如果不为空，把用户信息保存到redis中
+        // 7 如果不为空，把用户信息保存到redis中 key: 前缀 + userId  employee
+        redisUtils.set(RedisConstant.LOGIN_USER_INFO + employee.getId(), JSON.toJSONString(employee),
+                RedisConstant.LOGIN_INFO_EXPIRE_TIME);
         // 8 把当前用户所拥有的权限表达式集合放到redis当中
         return employee;
     }

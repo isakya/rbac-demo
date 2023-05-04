@@ -6,4 +6,10 @@ public class RedisConstant {
 
     // 过期时间
     public static final Long VERIFY_CODE_EXPIRE_TIME = 60*30L;
+
+    // 当前登陆用户信息的前缀
+    public static final String LOGIN_USER_INFO = "LOGIN_USER_INFO";
+
+    // 过期时间
+    public static final Long LOGIN_INFO_EXPIRE_TIME = 60*30L;
 }
