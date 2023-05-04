@@ -46,6 +46,7 @@ public class CheckPermissionInterceptor extends HandlerInterceptorAdapter {
         response.setHeader("Access-Control-Allow-Headers", ((HttpServletRequest) request).getHeader("Access-Control-Request-Headers"));
         // 指定数据响应格式
         response.setContentType("application/json;charset=utf-8");
+        // 让浏览器的预请求通过
         if(!(handler instanceof HandlerMethod)){ // 放行跨域的二次校验
             return true;
         }
