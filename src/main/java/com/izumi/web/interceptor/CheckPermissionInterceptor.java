@@ -37,6 +37,7 @@ import java.util.List;
 public class CheckPermissionInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private RedisUtils redisUtils;
+    // 第三个参数可以获取api所访问的方法
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
@@ -62,31 +63,40 @@ public class CheckPermissionInterceptor extends HandlerInterceptorAdapter {
             //是超级管理员
             return true;
         }
-        //不是超级管理员
+        //3.不是超级管理员
         //判断是否具有执行当前操作的权限
         //HandlerMethod：处理请求方法
         HandlerMethod handlerMethod = (HandlerMethod) handler;
-        //获取到当前执行的方法
+        //4.获取到当前执行的方法
         Method method = handlerMethod.getMethod();
-        // 获取到当前要执行方法的权限注解
-        RequirePermission annotation = method.getAnnotation(RequirePermission.class);
-        //获取当前的权限数组
-        String[] value = annotation.value();
-        //获取权限的名称、权限表达式
-        String name = value[0];
-        String expression = value[1];
-        //获取登录员工具有的权限
-        List<String> expressions =mapper.readValue(
-                redisUtils.get(Constants.EXPRESSION+":"+userId),List.class);
-        if(expressions.contains(expression)){
-            //有权限
-            return true;
+        // 当你访问的是控制器的方法的时候类型就是handlerMethod
+        // 当你访问静态资源的时候非HandlerMethod
+        if(handler instanceof HandlerMethod) {
+            //5.获取到当前要执行方法的权限注解
+            RequirePermission annotation = method.getAnnotation(RequirePermission.class);
+            // 如果方法上的注解为空，则表示不需要权限即可访问
+            if(annotation == null) {
+                return true;
+            }
+            //6.获取当前的权限数组
+            String[] value = annotation.value();
+            //获取权限的名称、权限表达式
+            String name = value[0];
+            String expression = value[1];
+            //7.获取登录员工具有的权限
+            List<String> expressions =mapper.readValue(
+                    redisUtils.get(Constants.EXPRESSION+":"+userId),List.class);
+            if(expressions.contains(expression)){
+                //有权限
+                return true;
+            }
+            //无权限
+            //跳转到没有权限的页面
+            // 403
+            response.getWriter().write(mapper.writeValueAsString(
+                    R.error(HttpStatus.FORBIDDEN.value(),"没有权限访问")));
+            return false;
         }
-        //无权限
-        //跳转到没有权限的页面
-        // 403
-        response.getWriter().write(mapper.writeValueAsString(
-                R.error(HttpStatus.FORBIDDEN.value(),"没有权限访问")));
-        return false;
+        return true;
     }
 }

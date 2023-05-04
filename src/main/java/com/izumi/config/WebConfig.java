@@ -11,6 +11,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private CheckPermissionInterceptor checkPermissionInterceptor;
 
+    @Autowired
+    private CheckPermissionInterceptor permissionInterceptor;
+
     /**
      * 1 把自己拦截器交给springmvc管理
      * 2 配置拦截规则
@@ -21,5 +24,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(checkPermissionInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/api/code", "/api/login");
+        registry.addInterceptor(permissionInterceptor)
+                .addPathPatterns("/**") // 拦截
+                .excludePathPatterns("/api/login","/api/code","/api/logout","/favicon.ico"); // 排除
     }
 }

@@ -17,14 +17,12 @@ public class PermissionApiController {
 
     @GetMapping("/listAll")
     @ResponseBody
-    @RequirePermission({"权限列表","permission:listAll"})
     public R listAll() {
         return R.ok(permissionService.listAll());
     }
 
     @GetMapping("/list")
     @ResponseBody
-    @RequirePermission({"权限分页列表","permission:list"})
     public R list(QueryObject qo) {
         return R.ok(permissionService.query(qo));
     }
@@ -36,7 +34,6 @@ public class PermissionApiController {
      */
     @PostMapping("/load")
     @ResponseBody
-    @RequirePermission({"加载权限","permission:load"})
     public R load() {
         permissionService.load();
         return R.ok("加载权限信息成功");
@@ -45,7 +42,6 @@ public class PermissionApiController {
     // 根据角色id查询角色拥有的权限
     @GetMapping("/queryPermission/{roleId}")
     @ResponseBody
-    @RequirePermission({"查询权限","department:queryPermission"})
     public R queryPermission(@PathVariable long roleId) {
         return R.ok(permissionService.queryByRoleId(roleId));
     }
