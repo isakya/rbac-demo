@@ -42,6 +42,7 @@ public class PermissionApiController {
         return R.ok("加载权限信息成功");
     }
 
+    // 根据角色id查询角色拥有的权限
     @GetMapping("/queryPermission/{roleId}")
     @ResponseBody
     @RequirePermission({"查询权限","department:queryPermission"})
