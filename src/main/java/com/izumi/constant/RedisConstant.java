@@ -12,4 +12,7 @@ public class RedisConstant {
 
     // 过期时间
     public static final Long LOGIN_INFO_EXPIRE_TIME = 60*30L;
+
+    // 当前用户所拥有的权限表达式集合
+    public static final String LOGIN_INFO_EXPRESSIONS = "LOGIN_USER_INFO";
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.izumi.constant.RedisConstant;
 import com.izumi.domain.Employee;
 import com.izumi.exception.BussinessExp;
+import com.izumi.mapper.PermissionMapper;
 import com.izumi.service.IEmployeeService;
 import com.izumi.service.ILoginService;
 import com.izumi.util.RedisUtils;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -22,6 +24,9 @@ public class LoginServiceImpl implements ILoginService {
     private RedisUtils redisUtils;
     @Autowired
     private IEmployeeService employeeService;
+    @Autowired
+    private PermissionMapper permissionMapper;
+
 
     @Override
     public Map<String, String> code() {
@@ -70,6 +75,9 @@ public class LoginServiceImpl implements ILoginService {
         redisUtils.set(RedisConstant.LOGIN_USER_INFO + employee.getId(), JSON.toJSONString(employee),
                 RedisConstant.LOGIN_INFO_EXPIRE_TIME);
         // 8 把当前用户所拥有的权限表达式集合放到redis当中
+        // 根据id查询用户拥有权限表达式集合
+        List<String> list = permissionMapper.selectExpressionByEmpId(employee.getId());
+        redisUtils.set(RedisConstant.LOGIN_INFO_EXPRESSIONS + employee.getId(), JSON.toJSONString(list), RedisConstant.LOGIN_INFO_EXPIRE_TIME);
         return employee;
     }
 }
