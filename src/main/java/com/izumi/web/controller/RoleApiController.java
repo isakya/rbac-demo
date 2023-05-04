@@ -46,6 +46,7 @@ public class RoleApiController {
         return R.ok(roleService.selectById(id));
     }
 
+    // 根据员工id查询拥有角色集合
     @GetMapping("/query/{employeeId}")
     @ResponseBody
     @RequirePermission({"角色信息","role:query"})
