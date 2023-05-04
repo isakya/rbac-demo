@@ -33,4 +33,6 @@ public interface EmployeeMapper {
     void deleteRelation(Long employeeId);
 
     void insertBatchRelation(Long employeeId, Long[] roleIds);
+
+    Employee login(String username, String password);
 }

@@ -117,4 +117,10 @@ public class EmployeeServiceImpl implements IEmployeeService {
             throw new BussinessExp("更新失败");
         }
     }
+
+    // 根据账号密码查询用户信息
+    @Override
+    public Employee login(String username, String password) {
+        return employeeMapper.login(username, password);
+    }
 }

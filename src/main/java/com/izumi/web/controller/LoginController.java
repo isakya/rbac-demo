@@ -1,11 +1,11 @@
 package com.izumi.web.controller;
 
+import com.izumi.domain.Employee;
 import com.izumi.service.ILoginService;
 import com.izumi.util.JsonResult;
+import com.izumi.vo.LoginInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -20,4 +20,11 @@ public class LoginController {
         Map<String, String> map = loginService.code();
         return JsonResult.success(map);
     }
+
+    @PostMapping("/login")
+    public JsonResult login(@RequestBody LoginInfoVo loginInfoVo) {
+        Employee employee = loginService.login(loginInfoVo);
+        return JsonResult.success(employee);
+    }
+
 }

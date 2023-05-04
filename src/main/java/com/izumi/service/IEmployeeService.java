@@ -18,4 +18,6 @@ public interface IEmployeeService {
     Employee selectById(Long id);
 
     void updateState(AdminStateVo adminStateVo);
+
+    Employee login(String username, String password);
 }
