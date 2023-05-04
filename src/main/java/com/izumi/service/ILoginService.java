@@ -9,4 +9,6 @@ public interface ILoginService {
     Map<String, String> code();
 
     Employee login(LoginInfoVo loginInfoVo);
+
+    void logout(String userId);
 }

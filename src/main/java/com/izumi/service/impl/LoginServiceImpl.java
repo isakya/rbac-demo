@@ -80,4 +80,12 @@ public class LoginServiceImpl implements ILoginService {
         redisUtils.set(RedisConstant.LOGIN_INFO_EXPRESSIONS + employee.getId(), JSON.toJSONString(list), RedisConstant.LOGIN_INFO_EXPIRE_TIME);
         return employee;
     }
+
+    @Override
+    public void logout(String userId) {
+        // 删除redis中登陆用户信息
+        redisUtils.del(RedisConstant.LOGIN_USER_INFO + userId);
+        // 删除redis中权限表达式集合
+        redisUtils.del(RedisConstant.LOGIN_INFO_EXPRESSIONS + userId);
+    }
 }

@@ -2,6 +2,7 @@ package com.izumi.web.interceptor;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.izumi.constant.RedisConstant;
 import com.izumi.domain.Employee;
 import com.izumi.domain.vo.R;
 import com.izumi.util.RedisUtils;
@@ -42,6 +43,7 @@ public class CheckPermissionInterceptor extends HandlerInterceptorAdapter {
         response.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Headers", ((HttpServletRequest) request).getHeader("Access-Control-Request-Headers"));
+        // 指定数据响应格式
         response.setContentType("application/json;charset=utf-8");
         if(!(handler instanceof HandlerMethod)){ // 放行跨域的二次校验
             return true;
@@ -49,9 +51,9 @@ public class CheckPermissionInterceptor extends HandlerInterceptorAdapter {
         String userId = request.getHeader(Constants.USER_ID);
         Assert.notNull(userId,"非法操作");
        //1.获取登录的员工
-        ObjectMapper mapper=new ObjectMapper();
-        Employee loginEmployee =mapper.readValue(
-                redisUtils.get(Constants.LOGIN_EMPLOYEE+":"+userId),Employee.class);
+        ObjectMapper mapper = new ObjectMapper();
+        Employee loginEmployee = mapper.readValue(
+                redisUtils.get(RedisConstant.LOGIN_USER_INFO +":"+userId),Employee.class);
         if(loginEmployee==null){
             return false;
         }
