@@ -85,9 +85,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
     // 维护关系，往中间表去插入数据
     private void saveRelation(Employee employee, Long[] roleIds) {
         if(roleIds != null && roleIds.length>0){
-            for (Long roleId : roleIds) {
-                employeeMapper.insertRelation(employee.getId(),roleId);
-            }
+            // for (Long roleId : roleIds) {
+            //     employeeMapper.insertRelation(employee.getId(),roleId);
+            // }
+            // 批量插入
+            employeeMapper.insertBatchRelation(employee.getId(), roleIds);
         }
     }
 

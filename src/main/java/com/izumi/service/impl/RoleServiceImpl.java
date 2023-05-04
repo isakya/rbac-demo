@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 @Service
-public class RoleService implements IRoleService {
+public class RoleServiceImpl implements IRoleService {
     @Autowired
     private RoleMapper roleMapper;
 

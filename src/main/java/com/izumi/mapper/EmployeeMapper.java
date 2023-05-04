@@ -31,4 +31,6 @@ public interface EmployeeMapper {
     void insertRelation(@Param("employeeId") Long employeeId, @Param("roleId") Long roleId);
     // 维护员工和角色的关系
     void deleteRelation(Long employeeId);
+
+    void insertBatchRelation(Long employeeId, Long[] roleIds);
 }

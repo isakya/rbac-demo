@@ -72,6 +72,12 @@
     <insert id="insertRelation">
         insert into employee_role(employee_id, role_id) values(#{employeeId}, #{roleId})
     </insert>
+    <insert id="insertBatchRelation">
+        insert into employee_role (employee_id, role_id) values
+        <foreach collection="roleIds" separator="," item="roleId">
+            (#{employeeId},#{roleId})
+        </foreach>
+    </insert>
     <delete id="deleteRelation">
         delete from employee_role where employee_id = #{employeeId}
     </delete>
